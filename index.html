@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dr. (CS) Vinit Sikka | Economist · Educator · Leader</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              950: '#060c1a',
+              900: '#0a1428',
+              800: '#0f1e3d',
+              700: '#162450',
+            },
+            gold: {
+              300: '#f5d78e',
+              400: '#e8c16a',
+              500: '#d4a843',
+              600: '#b8882a',
+            },
+            cream: '#f4efe6',
+            parchment: '#ede5d3',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body: ['Cormorant Garamond', 'serif'],
+            sans: ['DM Sans', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --gold: #d4a843;
+      --gold-light: #e8c16a;
+      --navy: #0a1428;
+      --navy-dark: #060c1a;
+    }
+
+    * { scroll-behavior: smooth; }
+
+    body {
+      background-color: #060c1a;
+      color: #f4efe6;
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Gold line accent */
+    .gold-line {
+      display: inline-block;
+      width: 3rem;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      vertical-align: middle;
+      margin-right: 0.75rem;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #060c1a; }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* Nav */
+    #navbar {
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+    #navbar.scrolled {
+      background: rgba(6, 12, 26, 0.96) !important;
+      box-shadow: 0 1px 0 rgba(212, 168, 67, 0.2);
+      backdrop-filter: blur(12px);
+    }
+
+    /* Hamburger */
+    .ham-line {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--gold);
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+    #ham-btn.open .ham-line:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    #ham-btn.open .ham-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #ham-btn.open .ham-line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    #mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    #mobile-menu.open { max-height: 400px; }
+
+    /* Hero */
+    .hero-bg {
+      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(212,168,67,0.07) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 80% at 10% 80%, rgba(22,36,80,0.8) 0%, transparent 60%),
+                  linear-gradient(135deg, #060c1a 0%, #0a1428 50%, #060c1a 100%);
+    }
+
+    /* Typing cursor */
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1em;
+      background: var(--gold);
+      margin-left: 4px;
+      vertical-align: middle;
+      animation: blink 0.9s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Section reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Cards */
+    .card {
+      background: linear-gradient(135deg, rgba(15,30,61,0.9), rgba(6,12,26,0.95));
+      border: 1px solid rgba(212,168,67,0.15);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      border-color: rgba(212,168,67,0.45);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(212,168,67,0.06);
+    }
+
+    /* Section headings */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.1;
+      color: #f4efe6;
+    }
+    .section-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* Timeline */
+    .timeline-line {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .timeline-dot {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: absolute;
+      left: -4px;
+      top: 6px;
+      box-shadow: 0 0 8px rgba(212,168,67,0.6);
+    }
+
+    /* Stat number */
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, #e8c16a, #d4a843);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Skills tag */
+    .skill-tag {
+      background: rgba(212,168,67,0.08);
+      border: 1px solid rgba(212,168,67,0.25);
+      color: var(--gold-light);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .skill-tag:hover {
+      background: rgba(212,168,67,0.18);
+      border-color: rgba(212,168,67,0.5);
+    }
+
+    /* Gold gradient text */
+    .gold-text {
+      background: linear-gradient(135deg, #f5d78e, #d4a843, #e8c16a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Footer separator */
+    .footer-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,168,67,0.4), transparent);
+    }
+
+    /* Floating orb */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Award badge */
+    .award-item {
+      border-left: 2px solid rgba(212,168,67,0.4);
+      transition: border-color 0.3s;
+    }
+    .award-item:hover { border-color: var(--gold); }
+
+    /* Patent badge */
+    .patent-badge {
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+    .granted { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+    .pending { background: rgba(212,168,67,0.1); color: #e8c16a; border: 1px solid rgba(212,168,67,0.3); }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      animation: float 2.5s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+  </style>
+</head>
+<body class="relative">
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300">
+  <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#home" class="flex flex-col leading-none">
+      <span class="font-display text-lg font-bold gold-text">Dr.(CS) Vinit Sikka</span>
+      <span class="font-sans text-xs text-gold-400/60 tracking-widest uppercase mt-0.5">Educator · Economist · Leader</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <ul class="hidden md:flex items-center gap-8 font-sans text-sm tracking-wide">
+      <li><a href="#about" class="text-cream/70 hover:text-gold-400 transition-colors duration-200">About</a></li>
+      <li><a href="#experience" class="text-cream/70 hover:text-gold-400 transition-colors duration-200">Experience</a></li>
+      <li><a href="#research" class="text-cream/70 hover:text-gold-400 transition-colors duration-200">Research</a></li>
+      <li><a href="#patents" class="text-cream/70 hover:text-gold-400 transition-colors duration-200">Patents</a></li>
+      <li><a href="#awards" class="text-cream/70 hover:text-gold-400 transition-colors duration-200">Awards</a></li>
+      <li>
+        <a href="https://linkedin.com/in/dr-cs-vinitsikka-72b359226" target="_blank"
+           class="px-4 py-2 border border-gold-500/50 text-gold-400 hover:bg-gold-500/10 rounded-sm text-xs tracking-widest uppercase transition-all duration-200">
+          LinkedIn
+        </a>
+      </li>
+    </ul>
+
+    <!-- Hamburger -->
+    <button id="ham-btn" class="md:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden">
+    <ul class="flex flex-col gap-1 pt-4 pb-6 px-4 font-sans text-sm border-t border-gold-500/10 mt-3">
+      <li><a href="#about" class="block py-2.5 text-cream/80 hover:text-gold-400 transition-colors mobile-link">About</a></li>
+      <li><a href="#experience" class="block py-2.5 text-cream/80 hover:text-gold-400 transition-colors mobile-link">Experience</a></li>
+      <li><a href="#research" class="block py-2.5 text-cream/80 hover:text-gold-400 transition-colors mobile-link">Research</a></li>
+      <li><a href="#patents" class="block py-2.5 text-cream/80 hover:text-gold-400 transition-colors mobile-link">Patents</a></li>
+      <li><a href="#awards" class="block py-2.5 text-cream/80 hover:text-gold-400 transition-colors mobile-link">Awards</a></li>
+      <li class="pt-2">
+        <a href="https://linkedin.com/in/dr-cs-vinitsikka-72b359226" target="_blank"
+           class="inline-block px-5 py-2.5 border border-gold-500/50 text-gold-400 text-xs tracking-widest uppercase">
+          LinkedIn ↗
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section id="home" class="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+  <!-- Orbs -->
+  <div class="orb w-[500px] h-[500px] bg-gold-500/5 top-[-100px] right-[-100px]"></div>
+  <div class="orb w-[400px] h-[400px] bg-navy-700/40 bottom-[-80px] left-[-100px]"></div>
+
+  <!-- Decorative lines -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div class="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-500/8 to-transparent"></div>
+    <div class="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-500/5 to-transparent"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10 text-center md:text-left">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <!-- Text -->
+      <div>
+        <p class="section-subtitle mb-4 reveal">Associate Director & Associate Professor</p>
+        <h1 class="font-display text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-4 reveal" style="transition-delay:0.1s">
+          Dr.(CS)<br/>
+          <span class="gold-text">Vinit Sikka</span>
+        </h1>
+
+        <!-- Typing animation -->
+        <div class="font-body text-xl md:text-2xl text-cream/75 mb-8 min-h-[2rem] reveal" style="transition-delay:0.2s">
+          <span id="typed-text"></span><span class="typing-cursor"></span>
+        </div>
+
+        <p class="font-sans text-sm md:text-base text-cream/55 leading-relaxed max-w-lg mb-10 reveal" style="transition-delay:0.3s">
+          Two decades of expertise spanning Corporate Law, Financial Education, Research & Training. Shaping tomorrow's leaders at Manav Rachna International Institute of Research and Studies.
+        </p>
+
+        <div class="flex flex-wrap gap-4 justify-center md:justify-start reveal" style="transition-delay:0.4s">
+          <a href="#about"
+             class="px-7 py-3 bg-gold-500 text-navy-950 font-sans font-500 text-sm tracking-wider uppercase hover:bg-gold-400 transition-colors duration-200 rounded-sm">
+            Explore Profile
+          </a>
+          <a href="#research"
+             class="px-7 py-3 border border-gold-500/40 text-gold-300 font-sans text-sm tracking-wider uppercase hover:border-gold-400/70 transition-colors duration-200 rounded-sm">
+            View Research
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats card -->
+      <div class="reveal" style="transition-delay:0.3s">
+        <div class="card rounded-lg p-8 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-gold-500/5 rounded-bl-full"></div>
+          <div class="grid grid-cols-2 gap-8">
+            <div class="text-center">
+              <div class="stat-num">20+</div>
+              <p class="font-sans text-xs text-cream/50 tracking-widest uppercase mt-1">Years Experience</p>
+            </div>
+            <div class="text-center">
+              <div class="stat-num">15+</div>
+              <p class="font-sans text-xs text-cream/50 tracking-widest uppercase mt-1">Publications</p>
+            </div>
+            <div class="text-center">
+              <div class="stat-num">9</div>
+              <p class="font-sans text-xs text-cream/50 tracking-widest uppercase mt-1">Patents & IPR</p>
+            </div>
+            <div class="text-center">
+              <div class="stat-num">6+</div>
+              <p class="font-sans text-xs text-cream/50 tracking-widest uppercase mt-1">Major Awards</p>
+            </div>
+          </div>
+          <div class="footer-rule mt-6 mb-5"></div>
+          <div class="flex flex-wrap gap-2 justify-center">
+            <span class="skill-tag text-xs px-3 py-1 rounded-sm font-sans">IIM Ahmedabad</span>
+            <span class="skill-tag text-xs px-3 py-1 rounded-sm font-sans">IIT-ISM Dhanbad</span>
+            <span class="skill-tag text-xs px-3 py-1 rounded-sm font-sans">Scopus Indexed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+    <div class="flex flex-col items-center gap-2 opacity-40">
+      <span class="font-sans text-xs tracking-widest uppercase text-gold-400">Scroll</span>
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+        <rect x="6" y="1" width="4" height="14" rx="2" stroke="#d4a843" stroke-width="1.5"/>
+        <circle cx="8" cy="6" r="2" fill="#d4a843" class="animate-bounce"/>
+        <path d="M4 18l4 4 4-4" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════ -->
+<section id="about" class="py-24 relative">
+  <div class="max-w-6xl mx-auto px-6">
+    <!-- Section header -->
+    <div class="mb-16 reveal">
+      <p class="section-subtitle mb-2"><span class="gold-line"></span>Who I Am</p>
+      <h2 class="section-title">About Me</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-10">
+      <!-- Bio -->
+      <div class="md:col-span-2 reveal">
+        <p class="font-body text-lg text-cream/80 leading-relaxed mb-5">
+          With over <strong class="text-gold-300 font-semibold">two decades of expertise</strong> in Corporate and Financial Education, I have encompassed roles spanning Research, Teaching, Training, and Consulting across various facets of Finance and Economics.
+        </p>
+        <p class="font-body text-lg text-cream/70 leading-relaxed mb-5">
+          My professional journey has seen me collaborate within multicultural environments and multidisciplinary teams, granting me a comprehensive understanding of both Corporate Laws and Social Sciences. Currently serving as <strong class="text-gold-300 font-semibold">Associate Director & Head of Training and Placement</strong> at MRIIRS, Faridabad, I bridge the gap between academia and industry.
+        </p>
+        <p class="font-body text-lg text-cream/70 leading-relaxed">
+          A Fellow Member of the Institute of Company Secretaries of India (ICSI), I have presented research at premier institutions including <strong class="text-gold-300 font-semibold">IIM Ahmedabad</strong> and <strong class="text-gold-300 font-semibold">IIT-ISM Dhanbad</strong>, with publications in Scopus-indexed and ABDC-ranked journals.
+        </p>
+      </div>
+
+      <!-- Key Info -->
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="card rounded-lg p-6 space-y-5">
+          <h3 class="font-display text-base font-semibold text-gold-300 mb-4 uppercase tracking-wider">Quick Info</h3>
+          <div>
+            <p class="font-sans text-xs text-cream/40 uppercase tracking-widest mb-1">Location</p>
+            <p class="font-body text-base text-cream/85">Sector-28, Faridabad, Haryana</p>
+          </div>
+          <div>
+            <p class="font-sans text-xs text-cream/40 uppercase tracking-widest mb-1">Current Role</p>
+            <p class="font-body text-base text-cream/85">Associate Director – T&P, MRIIRS</p>
+          </div>
+          <div>
+            <p class="font-sans text-xs text-cream/40 uppercase tracking-widest mb-1">Doctorate</p>
+            <p class="font-body text-base text-cream/85">Ph.D. Commerce, Singhania University (2021)</p>
+          </div>
+          <div>
+            <p class="font-sans text-xs text-cream/40 uppercase tracking-widest mb-1">Credentials</p>
+            <p class="font-body text-base text-cream/85">Fellow Member, ICSI · PGDBA, Finance</p>
+          </div>
+          <div class="footer-rule my-2"></div>
+          <a href="https://linkedin.com/in/dr-cs-vinitsikka-72b359226" target="_blank"
+             class="flex items-center gap-2 text-gold-400 font-sans text-sm hover:text-gold-300 transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            View LinkedIn Profile
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subject Expertise -->
+    <div class="mt-16 reveal">
+      <p class="font-sans text-xs text-cream/40 uppercase tracking-widest mb-5">Subject Expertise</p>
+      <div class="flex flex-wrap gap-3">
+        {['Managerial Economics','Direct & Indirect Taxation','Business & Corporate Laws','Financial Management','Entrepreneurship','Corporate Social Responsibility','Business Organization & Management'].map(s =>
+          `<span class="skill-tag px-4 py-2 rounded-sm font-sans text-sm">${s}</span>`
+        ).join('')}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     EXPERIENCE
+═══════════════════════════════════════════ -->
+<section id="experience" class="py-24 bg-navy-900/30 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-navy-900/20 to-transparent pointer-events-none"></div>
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <div class="mb-16 reveal">
+      <p class="section-subtitle mb-2"><span class="gold-line"></span>Career Journey</p>
+      <h2 class="section-title">Experience</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12">
+      <!-- Academic -->
+      <div class="reveal">
+        <h3 class="font-display text-xl font-semibold text-gold-300 mb-8 pb-3 border-b border-gold-500/20">
+          Academic Experience
+        </h3>
+        <div class="relative pl-6 space-y-8">
+          <div class="timeline-line"></div>
+
+          <!-- Current -->
+          <div class="relative">
+            <div class="timeline-dot"></div>
+            <div class="card rounded-lg p-5">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="font-display text-base font-semibold text-cream/95">Associate Director – T&P</h4>
+                <span class="text-xs font-sans text-gold-500 whitespace-nowrap">Sep 2021 – Present</span>
+              </div>
+              <p class="font-body text-sm text-gold-400/80 mb-2">MRIIRS, Faridabad</p>
+              <p class="font-sans text-xs text-cream/60 leading-relaxed">Head of Training & Placement for BBA/MBA programs. Associate Professor of Economics, Finance & Entrepreneurship. BBA-Online Programme Coordinator at CDOE.</p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="timeline-dot"></div>
+            <div class="card rounded-lg p-5">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="font-display text-base font-semibold text-cream/95">Visiting Faculty – FMS</h4>
+                <span class="text-xs font-sans text-gold-500 whitespace-nowrap">2010–2019</span>
+              </div>
+              <p class="font-body text-sm text-gold-400/80 mb-2">MRIIRS (Faculty of Management Studies)</p>
+              <p class="font-sans text-xs text-cream/60 leading-relaxed">Industrial Relations, Labour Legislations, Business Laws, Corporate Tax Planning.</p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="timeline-dot"></div>
+            <div class="card rounded-lg p-5">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="font-display text-base font-semibold text-cream/95">Visiting Faculty – FCBS</h4>
+                <span class="text-xs font-sans text-gold-500 whitespace-nowrap">2015–2018</span>
+              </div>
+              <p class="font-body text-sm text-gold-400/80 mb-2">MRIIRS (Faculty of Commerce & Business Studies)</p>
+              <p class="font-sans text-xs text-cream/60 leading-relaxed">Direct & Indirect Taxes, Company Law, Indian Economic & Social Environment.</p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="timeline-dot"></div>
+            <div class="card rounded-lg p-5">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="font-display text-base font-semibold text-cream/95">Visiting Faculty – CITM</h4>
+                <span class="text-xs font-sans text-gold-500 whitespace-nowrap">2007–2010</span>
+              </div>
+              <p class="font-body text-sm text-gold-400/80 mb-2">Career Institute of Technology & Management</p>
+              <p class="font-sans text-xs text-cream/60 leading-relaxed">Financial Management, International Financial Management, Foreign Exchange Management.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Corporate -->
+      <div class="reveal" style="transition-delay:0.15s">
+        <h3 class="font-display text-xl font-semibold text-gold-300 mb-8 pb-3 border-b border-gold-500/20">
+          Corporate Experience
+        </h3>
+        <div class="relative pl-6 space-y-8">
+          <div class="timeline-line"></div>
+
+          <div class="relative">
+            <div class="timeline-dot"></div>
+            <div class="card rounded-lg p-5">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="font-display text-base font-semibold text-cream/95">Director & Faculty</h4>
+                <span class="text-xs font-sans text-gold-500 whitespace-nowrap">2007–2021</span>
+              </div>
+              <p class="font-body text-sm text-gold-400/80 mb-2">Guru Shishya Parampara Education (CS Vinit Sikka Classes)</p>
+              <p class="font-sans text-xs text-cream/60 leading-relaxed">Founded and led premier coaching institute for professional courses spanning 14 years.</p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="timeline-dot"></div>
+            <div class="card rounded-lg p-5">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="font-display text-base font-semibold text-cream/95">Company Secretary in Practice</h4>
+                <span class="text-xs font-sans text-gold-500 whitespace-nowrap">2007–2018</span>
+              </div>
+              <p class="font-body text-sm text-gold-400/80 mb-2">Vinit Sikka & Associates</p>
+              <p class="font-sans text-xs text-cream/60 leading-relaxed">Independent CS practice providing corporate law compliance and governance advisory.</p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="timeline-dot"></div>
+            <div class="card rounded-lg p-5">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="font-display text-base font-semibold text-cream/95">Company Secretary</h4>
+                <span class="text-xs font-sans text-gold-500 whitespace-nowrap">2003–2007</span>
+              </div>
+              <p class="font-body text-sm text-gold-400/80 mb-2">Shivalik Global Limited</p>
+              <p class="font-sans text-xs text-cream/60 leading-relaxed">Spearheaded the IPO as Compliance Officer; achieved dual listing on BSE & NSE (April 2006). Orchestrated merger with Shyam Tex International Ltd (High Court, 2007).</p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="timeline-dot"></div>
+            <div class="card rounded-lg p-5">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="font-display text-base font-semibold text-cream/95">Company Secretary</h4>
+                <span class="text-xs font-sans text-gold-500 whitespace-nowrap">Jul–Oct 2003</span>
+              </div>
+              <p class="font-body text-sm text-gold-400/80">AVK SEG (India) Power Limited</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     RESEARCH PUBLICATIONS
+═══════════════════════════════════════════ -->
+<section id="research" class="py-24 relative">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-16 reveal">
+      <p class="section-subtitle mb-2"><span class="gold-line"></span>Scholarly Contributions</p>
+      <h2 class="section-title">Research & Publications</h2>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="flex flex-wrap gap-3 mb-10 reveal" id="filter-tabs">
+      <button class="filter-btn active font-sans text-xs px-4 py-2 rounded-sm tracking-wider uppercase transition-all duration-200" data-filter="all">All Publications</button>
+      <button class="filter-btn font-sans text-xs px-4 py-2 rounded-sm tracking-wider uppercase transition-all duration-200" data-filter="scopus">Scopus Indexed</button>
+      <button class="filter-btn font-sans text-xs px-4 py-2 rounded-sm tracking-wider uppercase transition-all duration-200" data-filter="abdc">ABDC Ranked</button>
+      <button class="filter-btn font-sans text-xs px-4 py-2 rounded-sm tracking-wider uppercase transition-all duration-200" data-filter="2025">2025</button>
+    </div>
+
+    <div id="publications-grid" class="grid md:grid-cols-2 gap-5 reveal">
+      <!-- Publications injected by JS -->
+    </div>
+
+    <!-- Conference Presentations -->
+    <div class="mt-16 reveal">
+      <h3 class="font-display text-xl font-semibold text-gold-300 mb-8 pb-3 border-b border-gold-500/20">
+        Conference Presentations & Invitations
+      </h3>
+      <div class="grid md:grid-cols-2 gap-4" id="conferences-list">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PATENTS
+═══════════════════════════════════════════ -->
+<section id="patents" class="py-24 bg-navy-900/30 relative">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-16 reveal">
+      <p class="section-subtitle mb-2"><span class="gold-line"></span>Intellectual Property</p>
+      <h2 class="section-title">Patents & Copyrights</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="patents-grid">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     AWARDS
+═══════════════════════════════════════════ -->
+<section id="awards" class="py-24 relative">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-16 reveal">
+      <p class="section-subtitle mb-2"><span class="gold-line"></span>Recognition & Honours</p>
+      <h2 class="section-title">Awards & Achievements</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6" id="awards-grid">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     EDUCATION
+═══════════════════════════════════════════ -->
+<section id="education" class="py-24 bg-navy-900/30">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-16 reveal">
+      <p class="section-subtitle mb-2"><span class="gold-line"></span>Academic Background</p>
+      <h2 class="section-title">Education</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="card rounded-lg p-6 reveal">
+        <div class="text-3xl mb-4">🎓</div>
+        <h3 class="font-display text-lg font-semibold text-cream/95 mb-1">Doctorate (Ph.D)</h3>
+        <p class="font-sans text-xs text-gold-400 uppercase tracking-wider mb-3">Commerce · 2017–2021</p>
+        <p class="font-body text-sm text-cream/65 mb-1">Singhania University, Rajasthan</p>
+        <p class="font-sans text-xs text-cream/45 italic">"Financial Literacy and its Application amongst University Students in Delhi NCR"</p>
+      </div>
+      <div class="card rounded-lg p-6 reveal" style="transition-delay:0.1s">
+        <div class="text-3xl mb-4">📜</div>
+        <h3 class="font-display text-lg font-semibold text-cream/95 mb-1">Fellow Member (CS)</h3>
+        <p class="font-sans text-xs text-gold-400 uppercase tracking-wider mb-3">Corporate Laws · 1996–2003</p>
+        <p class="font-body text-sm text-cream/65">The Institute of Company Secretaries of India</p>
+      </div>
+      <div class="card rounded-lg p-6 reveal" style="transition-delay:0.2s">
+        <div class="text-3xl mb-4">🏛️</div>
+        <h3 class="font-display text-lg font-semibold text-cream/95 mb-1">Masters in Commerce</h3>
+        <p class="font-sans text-xs text-gold-400 uppercase tracking-wider mb-3">Business Policy & Governance · 2016–2017</p>
+        <p class="font-body text-sm text-cream/65">IGNOU, New Delhi</p>
+      </div>
+      <div class="card rounded-lg p-6 reveal" style="transition-delay:0.1s">
+        <div class="text-3xl mb-4">💼</div>
+        <h3 class="font-display text-lg font-semibold text-cream/95 mb-1">PG Diploma (PGDBA)</h3>
+        <p class="font-sans text-xs text-gold-400 uppercase tracking-wider mb-3">Finance Management · 2002–2004</p>
+        <p class="font-body text-sm text-cream/65">Symbiosis Centre for Distance Learning</p>
+      </div>
+      <div class="card rounded-lg p-6 reveal" style="transition-delay:0.2s">
+        <div class="text-3xl mb-4">📊</div>
+        <h3 class="font-display text-lg font-semibold text-cream/95 mb-1">Bachelor of Commerce</h3>
+        <p class="font-sans text-xs text-gold-400 uppercase tracking-wider mb-3">Commerce · 1996–1999</p>
+        <p class="font-body text-sm text-cream/65">P.G.D.A.V. College, Delhi University</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer class="py-12 border-t border-gold-500/10">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="text-center md:text-left">
+        <p class="font-display text-xl font-bold gold-text mb-1">Dr.(CS) Vinit Sikka</p>
+        <p class="font-sans text-xs text-cream/40 tracking-widest uppercase">Associate Director – T&P · Associate Professor · MRIIRS</p>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="tel:8076812628" class="font-sans text-sm text-cream/50 hover:text-gold-400 transition-colors">
+          📞 8076812628
+        </a>
+        <a href="mailto:sikka.vinit@yahoo.co.in" class="font-sans text-sm text-cream/50 hover:text-gold-400 transition-colors">
+          ✉️ sikka.vinit@yahoo.co.in
+        </a>
+        <a href="https://linkedin.com/in/dr-cs-vinitsikka-72b359226" target="_blank"
+           class="w-9 h-9 flex items-center justify-center border border-gold-500/30 text-gold-400/70 hover:border-gold-400 hover:text-gold-400 transition-all rounded-sm">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-rule mt-8 mb-5"></div>
+    <p class="text-center font-sans text-xs text-cream/25">© 2025 Dr.(CS) Vinit Sikka · All Rights Reserved</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+// ── DATA ──────────────────────────────────────────────
+
+const publications = [
+  { year:'2025', title:'Green Bonds as Catalysts for Sustainable Development: Strategies and Implications for India', journal:'Springer (Vol 64)', tags:['scopus','2025'], badge:'Scopus · Springer' },
+  { year:'2025', title:'The Role of GST in Shaping the Growth & Challenges of SMEs: A Policy and Economic Perspective', journal:'European Economic Letters, Vol 15, Issue 1', tags:['abdc','2025'], badge:'ABDC-C' },
+  { year:'2025', title:'Disrupting Monetary Policy: The Role of Fintech Lending in Shaping Economic Outcomes in the UK', journal:'Journal of Informatics Education and Research, Vol 5, Issue 1', tags:['abdc','2025'], badge:'ABDC-C' },
+  { year:'2025', title:'GST Composition Scheme: A Catalyst for Growth in Delhi NCR\'s FMCG Industry', journal:'Asian and Pacific Economic Review', tags:['abdc','2025'], badge:'ABDC-C' },
+  { year:'2025', title:'Empowering Women through Financial Literacy: A Pathway to Success', journal:'European Economic Letter, Vol 15, Issue 1', tags:['abdc','2025'], badge:'ABDC-C' },
+  { year:'2024', title:'IoT-Driven Credit Scoring Models: Improving Loan Decision Making in Banking', journal:'IEEE Xplore', tags:['scopus'], badge:'Scopus Q4 · IEEE' },
+  { year:'2024', title:'International Lessons and Adaptations: Examining Global CBDC Implementations for India\'s Digital Rupee', journal:'IGI Global', tags:['scopus'], badge:'Scopus Indexed' },
+  { year:'2024', title:'Financial Inclusion as a Catalyst for Financial Planning among Female Faculty Members', journal:'Urban India (UGC CARE Group I)', tags:[], badge:'UGC CARE-I' },
+  { year:'2024', title:'Barrier to Comprehensive Financial Inclusion across the Globe: From Socio-Cultural Norms to Systematic Challenges', journal:'Springer 2024', tags:[], badge:'Springer' },
+  { year:'2023', title:'Archimedes Optimization with Enhanced Deep Learning for Drug Supply Chain Management', journal:'IEEE – ICSTSN 2023, Villupuram', tags:['scopus'], badge:'Scopus · IEEE' },
+  { year:'2023', title:'Exploring the Impact of Bank Mergers on Sustainable Development in India: ESG Practices', journal:'Alankar Publishing House (UGC CARE-II)', tags:[], badge:'UGC CARE-II' },
+  { year:'2020', title:'Financial Literacy and Knowledge of Financial Management amongst University Students in Delhi NCR', journal:'IRJMSH, Vol 11, Issue 4', tags:[], badge:'Journal' },
+];
+
+const conferences = [
+  { year:'2025', title:'Cross-Industry Networking: Fostering Innovation and Sustainability Together', venue:'Delhi School of Business' },
+  { year:'2024', title:'Strategic Portfolio Management: Navigating Macroeconomic Influences and ESG Principles', venue:'IIM Ahmedabad' },
+  { year:'2024', title:'Integrating Digital Horizons: The Nexus of Neobanking, DeFi, and Regtech', venue:'IIT-ISM Dhanbad' },
+  { year:'2024', title:'Leveraging AI in ESG Investing: Enhancing Stock Market Analysis for India', venue:'Jamia Hamdard' },
+  { year:'2024', title:'GST Composition Scheme: A Catalyst for Growth in Delhi NCR\'s FMCG Industry', venue:'Sushant University' },
+  { year:'2020', title:'National Seminar sponsored by UGC', venue:'Shyama Prasad Mukherji College for Women, Delhi University' },
+];
+
+const patents = [
+  { date:'13/01/2025', title:'AI Enabled Chip Cards', status:'Granted April 2025', type:'granted' },
+  { date:'10/01/2025', title:'Artificial Intelligence Based Customer Feedback Device', status:'Granted April 2025', type:'granted' },
+  { date:'28/11/2024', title:'Copyright – Concept of Mutual Funds', status:'Granted Nov 2024', type:'granted' },
+  { date:'18/05/2023', title:'Pepper Spray Pen with Laser Pointing Technology', status:'Granted Feb 2025', type:'granted' },
+  { date:'28/05/2024', title:'Machine Learning Based Approaches For Fraud Detection and Prevention', status:'Published · Pending Examination', type:'pending' },
+  { date:'24/11/2023', title:'Analysis of How Ecommerce AI is Transforming into Business', status:'Published · Pending Examination', type:'pending' },
+  { date:'07/01/2023', title:'Analysis of Sustainable Supply Chain Management for Fashion Industry in India', status:'Under Examination', type:'pending' },
+  { date:'26/12/2022', title:'A Learning Device for Detecting Fault Conditions Between Shipment Inspection Using Machine Learning', status:'Under Examination', type:'pending' },
+  { date:'02/01/2022', title:'Algorithm Based on Deep Learning for Detection of COVID-19 Infections', status:'Under Examination', type:'pending' },
+];
+
+const awards = [
+  { year:'2024', title:'Best Paper Award', body:'International Conference, Sushant University, Gurugram', icon:'🏆' },
+  { year:'2024', title:'"Special Invitee Award"', body:'Teacher\'s Conference by NIRC, ICSI Faridabad', icon:'🌟' },
+  { year:'2024', title:'Exceptional Leadership Award', body:'ICMAI 2024 – Excellence in Nation Building & Role of CMA', icon:'🎖️' },
+  { year:'2023', title:'Best Paper Award', body:'International Conference, DAV College, Faridabad', icon:'🏆' },
+  { year:'2023', title:'Exceptional Contribution Award', body:'ICSI "AGAM" – Received from Minister, Govt. of Haryana', icon:'🌟' },
+  { year:'2003', title:'Best Project Presentation Award', body:'Secretarial & Modular Training Programme, ICSI, New Delhi', icon:'🎖️' },
+  { year:'1996', title:'Best All-Rounder Student', body:'School Award – Academic Excellence', icon:'⭐' },
+];
+
+// ── RENDER PUBLICATIONS ───────────────────────────────
+
+function renderPublications(filter = 'all') {
+  const grid = document.getElementById('publications-grid');
+  const filtered = filter === 'all' ? publications : publications.filter(p => p.tags.includes(filter));
+  grid.innerHTML = filtered.map(p => `
+    <div class="card rounded-lg p-5 transition-all duration-300">
+      <div class="flex items-start gap-3 mb-3">
+        <span class="font-sans text-xs text-gold-500 font-semibold whitespace-nowrap mt-0.5">${p.year}</span>
+        <h4 class="font-body text-base text-cream/90 leading-snug">${p.title}</h4>
+      </div>
+      <p class="font-sans text-xs text-cream/45 mb-3">${p.journal}</p>
+      <span class="font-sans text-xs px-3 py-1 rounded-full border border-gold-500/25 text-gold-400/80">${p.badge}</span>
+    </div>
+  `).join('');
+}
+
+// Filter button styling
+const filterStyle = {
+  active: 'bg-gold-500/15 border border-gold-500/50 text-gold-300',
+  inactive: 'border border-cream/10 text-cream/40 hover:border-gold-500/30 hover:text-gold-400/70',
+};
+
+document.getElementById('filter-tabs').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.className = `filter-btn font-sans text-xs px-4 py-2 rounded-sm tracking-wider uppercase transition-all duration-200 ${filterStyle.inactive}`;
+  });
+  btn.className = `filter-btn font-sans text-xs px-4 py-2 rounded-sm tracking-wider uppercase transition-all duration-200 ${filterStyle.active}`;
+  renderPublications(btn.dataset.filter);
+});
+
+// Set initial filter btn styles
+document.querySelectorAll('.filter-btn').forEach((b, i) => {
+  b.className = `filter-btn font-sans text-xs px-4 py-2 rounded-sm tracking-wider uppercase transition-all duration-200 ${i === 0 ? filterStyle.active : filterStyle.inactive}`;
+});
+renderPublications();
+
+// ── RENDER CONFERENCES ────────────────────────────────
+
+document.getElementById('conferences-list').innerHTML = conferences.map(c => `
+  <div class="card rounded-lg p-4 flex gap-4">
+    <span class="font-sans text-xs text-gold-500 font-semibold whitespace-nowrap mt-0.5">${c.year}</span>
+    <div>
+      <p class="font-body text-sm text-cream/85 leading-snug mb-1">${c.title}</p>
+      <p class="font-sans text-xs text-cream/40">📍 ${c.venue}</p>
+    </div>
+  </div>
+`).join('');
+
+// ── RENDER PATENTS ────────────────────────────────────
+
+document.getElementById('patents-grid').innerHTML = patents.map(p => `
+  <div class="card rounded-lg p-5 reveal">
+    <div class="flex items-center justify-between mb-3">
+      <span class="font-sans text-xs text-cream/40">${p.date}</span>
+      <span class="patent-badge ${p.type}">${p.type === 'granted' ? '✓ Granted' : '⏳ Pending'}</span>
+    </div>
+    <h4 class="font-body text-base text-cream/90 leading-snug mb-2">${p.title}</h4>
+    <p class="font-sans text-xs text-cream/40">${p.status}</p>
+  </div>
+`).join('');
+
+// ── RENDER AWARDS ─────────────────────────────────────
+
+document.getElementById('awards-grid').innerHTML = awards.map((a, i) => `
+  <div class="award-item pl-5 py-3 reveal" style="transition-delay:${i * 0.05}s">
+    <div class="flex items-start gap-4">
+      <span class="text-2xl mt-0.5">${a.icon}</span>
+      <div>
+        <div class="flex items-center gap-3 mb-1">
+          <h4 class="font-display text-base font-semibold text-cream/95">${a.title}</h4>
+          <span class="font-sans text-xs text-gold-500">${a.year}</span>
+        </div>
+        <p class="font-sans text-sm text-cream/55">${a.body}</p>
+      </div>
+    </div>
+  </div>
+`).join('');
+
+// ── SUBJECT EXPERTISE TAGS ─────────────────────────────
+
+const subjects = ['Managerial Economics','Direct & Indirect Taxation','Business & Corporate Laws','Financial Management','Entrepreneurship','Corporate Social Responsibility','Business Organization & Management'];
+const tagContainer = document.querySelector('#about .flex.flex-wrap.gap-3');
+if (tagContainer) tagContainer.innerHTML = subjects.map(s => `<span class="skill-tag px-4 py-2 rounded-sm font-sans text-sm">${s}</span>`).join('');
+
+// ── TYPING ANIMATION ──────────────────────────────────
+
+const phrases = [
+  'Economist & Finance Expert',
+  'Associate Director – T&P',
+  'Company Secretary (Fellow)',
+  'Published Researcher',
+  'Speaker at IIM & IIT',
+  'Entrepreneur · Educator',
+];
+
+let phraseIdx = 0, charIdx = 0, deleting = false;
+const typedEl = document.getElementById('typed-text');
+
+function typeLoop() {
+  const current = phrases[phraseIdx];
+  if (!deleting) {
+    typedEl.textContent = current.slice(0, ++charIdx);
+    if (charIdx === current.length) {
+      deleting = true;
+      setTimeout(typeLoop, 2000);
+      return;
+    }
+  } else {
+    typedEl.textContent = current.slice(0, --charIdx);
+    if (charIdx === 0) {
+      deleting = false;
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+    }
+  }
+  setTimeout(typeLoop, deleting ? 45 : 80);
+}
+setTimeout(typeLoop, 800);
+
+// ── HAMBURGER ─────────────────────────────────────────
+
+const hamBtn = document.getElementById('ham-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamBtn.addEventListener('click', () => {
+  hamBtn.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamBtn.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+// ── NAVBAR SCROLL ─────────────────────────────────────
+
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── SCROLL REVEAL ─────────────────────────────────────
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// Re-observe newly added patents/awards
+setTimeout(() => {
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+}, 300);
+</script>
+</body>
+</html>
